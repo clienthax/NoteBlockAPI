@@ -2,6 +2,7 @@
 ## General
 #################
 
+.gradle
 .classpath
 .project
 .settings/
