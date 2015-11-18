@@ -1,27 +1,29 @@
 package com.xxmicloxx.NoteBlockAPI;
 
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
+import uk.co.haxyshideout.musicbox.MusicBox;
 
 public class PositionSongPlayer extends SongPlayer {
 
-    private Location targetLocation;
+    private Location<World> targetLocation;
 
     public PositionSongPlayer(Song song) {
         super(song);
     }
 
-    public Location getTargetLocation() {
+    public Location<World> getTargetLocation() {
         return targetLocation;
     }
 
-    public void setTargetLocation(Location targetLocation) {
+    public void setTargetLocation(Location<World> targetLocation) {
         this.targetLocation = targetLocation;
     }
 
     @Override
     public void playTick(Player p, int tick) {
-        if (!p.getWorld().getName().equals(targetLocation.getWorld().getName())) {
+        if (!p.getWorld().getUniqueId().equals(targetLocation.getExtent().getUniqueId())) {
             // not in same world
             return;
         }
@@ -32,10 +34,18 @@ public class PositionSongPlayer extends SongPlayer {
             if (note == null) {
                 continue;
             }
-            p.playSound(targetLocation,
-                    Instrument.getInstrument(note.getInstrument()),
+            p.playSound(Instrument.getInstrument(note.getInstrument()),
+                    targetLocation.getPosition(),
                     (l.getVolume() * (int) volume * (int) playerVolume) / 1000000f,
                     NotePitch.getPitch(note.getKey() - 33));
         }
+    }
+
+    @Override
+    public void playAreaTick(int tick) {
+        MusicBox.getInstance().game.getServer().getOnlinePlayers().stream()
+                .filter(player -> player.getLocation().getExtent().equals(targetLocation.getExtent()))
+                .filter(player -> player.getLocation().getPosition().distance(targetLocation.getPosition()) < 16).forEach(player -> playTick(player,
+                tick));
     }
 }

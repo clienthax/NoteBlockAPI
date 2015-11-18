@@ -1,17 +1,26 @@
 package com.xxmicloxx.NoteBlockAPI;
 
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
+import com.google.inject.Inject;
+import org.spongepowered.api.Game;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.game.state.GameInitializationEvent;
+import org.spongepowered.api.event.game.state.GameStoppingServerEvent;
+import org.spongepowered.api.plugin.Plugin;
+import org.spongepowered.api.service.scheduler.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class NoteBlockPlayerMain extends JavaPlugin {
+@Plugin(name = "NoteBlockAPI", id = "NoteBlockAPI", version = "1.0")
+public class NoteBlockPlayerMain {
 
     public static NoteBlockPlayerMain plugin;
-    public HashMap<String, ArrayList<SongPlayer>> playingSongs = new HashMap<String, ArrayList<SongPlayer>>();
-    public HashMap<String, Byte> playerVolume = new HashMap<String, Byte>();
+    public HashMap<String, ArrayList<SongPlayer>> playingSongs = new HashMap<>();
+    public HashMap<String, Byte> playerVolume = new HashMap<>();
+
+    @Inject
+    public Game game;
 
     public static boolean isReceivingSong(Player p) {
         return ((plugin.playingSongs.get(p.getName()) != null) && (!plugin.playingSongs.get(p.getName()).isEmpty()));
@@ -39,13 +48,13 @@ public class NoteBlockPlayerMain extends JavaPlugin {
         return b;
     }
 
-    @Override
-    public void onEnable() {
+    @Listener
+    public void onEnable(GameInitializationEvent event) {
         plugin = this;
     }
 
-    @Override
-    public void onDisable() {
-        Bukkit.getScheduler().cancelTasks(this);
+    @Listener
+    public void onDisable(GameStoppingServerEvent event) {
+        game.getScheduler().getScheduledTasks(this).forEach(Task::cancel);
     }
 }

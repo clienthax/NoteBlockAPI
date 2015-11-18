@@ -1,8 +1,13 @@
 package com.xxmicloxx.NoteBlockAPI;
 
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
+import org.spongepowered.api.block.BlockTypes;
+import org.spongepowered.api.effect.particle.NoteParticle;
+import org.spongepowered.api.effect.particle.ParticleEffect;
+import org.spongepowered.api.effect.particle.ParticleTypes;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
+import uk.co.haxyshideout.musicbox.MusicBox;
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,26 +16,28 @@ import org.bukkit.entity.Player;
  * Time: 12:56
  */
 public class NoteBlockSongPlayer extends SongPlayer {
-    private Block noteBlock;
+
+    private Location<World> noteBlockLocation;
 
     public NoteBlockSongPlayer(Song song) {
         super(song);
     }
 
-    public Block getNoteBlock() {
-        return noteBlock;
+    public Location<World> getNoteBlockLocation() {
+        return noteBlockLocation;
     }
 
-    public void setNoteBlock(Block noteBlock) {
-        this.noteBlock = noteBlock;
+    public void setNoteBlockLocation(Location<World> noteBlockLocation) {
+        this.noteBlockLocation = noteBlockLocation;
     }
 
     @Override
     public void playTick(Player p, int tick) {
-        if (noteBlock.getType() != Material.NOTE_BLOCK) {
+        //noinspection ConstantConditions
+        if(noteBlockLocation.getBlock().getType() != BlockTypes.JUKEBOX && noteBlockLocation.getBlock().getType() != BlockTypes.NOTEBLOCK) {
             return;
         }
-        if (!p.getWorld().getName().equals(noteBlock.getWorld().getName())) {
+        if (!p.getWorld().getUniqueId().equals(noteBlockLocation.getExtent().getUniqueId())) {
             // not in same world
             return;
         }
@@ -41,12 +48,21 @@ public class NoteBlockSongPlayer extends SongPlayer {
             if (note == null) {
                 continue;
             }
-            p.playNote(noteBlock.getLocation(), Instrument.getBukkitInstrument(note.getInstrument()),
-                    new org.bukkit.Note(note.getKey() - 33));
-            p.playSound(noteBlock.getLocation(),
-                    Instrument.getInstrument(note.getInstrument()),
+            ParticleEffect particleEffect = NoteBlockPlayerMain.plugin.game.getRegistry().createBuilder(NoteParticle.Builder.class).note(
+                    NotePitch.getSpongeNotePitch(note.getKey() - 33)).type(ParticleTypes.NOTE).build();
+            p.spawnParticles(particleEffect, noteBlockLocation.getPosition().add(random.nextFloat(), 1, random.nextFloat()));
+            p.playSound(Instrument.getInstrument(note.getInstrument()),
+                    noteBlockLocation.getPosition(),
                     (l.getVolume() * (int) volume * (int) playerVolume) / 1000000f,
                     NotePitch.getPitch(note.getKey() - 33));
         }
+    }
+
+    @Override
+    public void playAreaTick(int tick) {
+        MusicBox.getInstance().game.getServer().getOnlinePlayers().stream()
+                .filter(player -> player.getLocation().getExtent().equals(noteBlockLocation.getExtent()))
+                .filter(player -> player.getLocation().getPosition().distance(noteBlockLocation.getPosition()) < 16).forEach(player -> playTick
+                (player, tick));
     }
 }
