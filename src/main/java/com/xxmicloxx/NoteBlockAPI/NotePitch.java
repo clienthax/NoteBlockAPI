@@ -41,21 +41,10 @@ public enum NotePitch {
     }
 
     public static org.spongepowered.api.data.type.NotePitch getSpongeNotePitch(int note) {
-        for (NotePitch notePitch : values()) {
-            if (notePitch.note == note) {
-                return notePitch.spongeNotePitch;
-            }
-        }
-        return NOTE_0.spongeNotePitch;
+        return values()[note].spongeNotePitch;
     }
 
     public static float getPitch(int note) {
-        for (NotePitch notePitch : values()) {
-            if (notePitch.note == note) {
-                return notePitch.pitch;
-            }
-        }
-
-        return 0.0F;
+        return values()[note].pitch;
     }
 }

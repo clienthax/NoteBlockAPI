@@ -5,47 +5,45 @@ import org.spongepowered.api.Game;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
-import org.spongepowered.api.event.game.state.GameStoppingServerEvent;
 import org.spongepowered.api.plugin.Plugin;
-import org.spongepowered.api.service.scheduler.Task;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.WeakHashMap;
 
-@Plugin(name = "NoteBlockAPI", id = "NoteBlockAPI", version = "1.0")
+@Plugin(name = "NoteBlockAPI", id = "NoteBlockAPI", version = "2.0")
 public class NoteBlockPlayerMain {
 
     public static NoteBlockPlayerMain plugin;
-    public HashMap<String, ArrayList<SongPlayer>> playingSongs = new HashMap<>();
-    public HashMap<String, Byte> playerVolume = new HashMap<>();
+    public Map<Player, List<SongPlayer>> playingSongs = new WeakHashMap<>();
+    public Map<Player, Byte> playerVolume = new WeakHashMap<>();
 
     @Inject
     public Game game;
 
     public static boolean isReceivingSong(Player p) {
-        return ((plugin.playingSongs.get(p.getName()) != null) && (!plugin.playingSongs.get(p.getName()).isEmpty()));
+        List<SongPlayer> songs = plugin.playingSongs.get(p);
+        return songs != null && !songs.isEmpty();
     }
 
     public static void stopPlaying(Player p) {
-        if (plugin.playingSongs.get(p.getName()) == null) {
+        List<SongPlayer> songs = plugin.playingSongs.get(p);
+        if(songs == null) {
             return;
         }
-        for (SongPlayer s : plugin.playingSongs.get(p.getName())) {
+        for (SongPlayer s : songs) {
             s.removePlayer(p);
         }
     }
 
     public static void setPlayerVolume(Player p, byte volume) {
-        plugin.playerVolume.put(p.getName(), volume);
+        plugin.playerVolume.put(p, volume);
     }
 
     public static byte getPlayerVolume(Player p) {
-        Byte b = plugin.playerVolume.get(p.getName());
-        if (b == null) {
-            b = 100;
-            plugin.playerVolume.put(p.getName(), b);
-        }
-        return b;
+        Byte b = plugin.playerVolume.get(p);
+        return b == null ? 100 : b;
     }
 
     @Listener
@@ -53,8 +51,4 @@ public class NoteBlockPlayerMain {
         plugin = this;
     }
 
-    @Listener
-    public void onDisable(GameStoppingServerEvent event) {
-        game.getScheduler().getScheduledTasks(this).forEach(Task::cancel);
-    }
 }

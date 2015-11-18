@@ -13,14 +13,16 @@ public class RadioSongPlayer extends SongPlayer {
     public void playTick(Player p, int tick) {
         byte playerVolume = NoteBlockPlayerMain.getPlayerVolume(p);
 
-        for (Layer l : song.getLayerHashMap().values()) {
+        for (Layer l : song.getLayerMap().values()) {
             Note note = l.getNote(tick);
             if (note == null) {
                 continue;
             }
-            p.playSound(Instrument.getInstrument(note.getInstrument()),
+            Instrument instrument = note.getInstrument();
+            float volume = (l.getVolume() * (int) this.volume * (int) playerVolume) / 1000000f;
+            p.playSound(instrument.getSound(),
                     p.getLocation().getPosition(),
-                    (l.getVolume() * (int) volume * (int) playerVolume) / 1000000f,
+                    volume,
                     NotePitch.getPitch(note.getKey() - 33));
         }
     }

@@ -2,19 +2,19 @@ package com.xxmicloxx.NoteBlockAPI;
 
 public class Note {
 
-    private byte instrument;
+    private Instrument instrument;
     private byte key;
 
-    public Note(byte instrument, byte key) {
+    public Note(Instrument instrument, byte key) {
         this.instrument = instrument;
         this.key = key;
     }
 
-    public byte getInstrument() {
+    public Instrument getInstrument() {
         return instrument;
     }
 
-    public void setInstrument(byte instrument) {
+    public void setInstrument(Instrument instrument) {
         this.instrument = instrument;
     }
 

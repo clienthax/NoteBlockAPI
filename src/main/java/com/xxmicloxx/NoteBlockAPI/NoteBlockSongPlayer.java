@@ -37,13 +37,13 @@ public class NoteBlockSongPlayer extends SongPlayer {
         if(noteBlockLocation.getBlock().getType() != BlockTypes.JUKEBOX && noteBlockLocation.getBlock().getType() != BlockTypes.NOTEBLOCK) {
             return;
         }
-        if (!p.getWorld().getUniqueId().equals(noteBlockLocation.getExtent().getUniqueId())) {
+        if (!p.getWorld().equals(noteBlockLocation.getExtent())) {
             // not in same world
             return;
         }
         byte playerVolume = NoteBlockPlayerMain.getPlayerVolume(p);
 
-        for (Layer l : song.getLayerHashMap().values()) {
+        for (Layer l : song.getLayerMap().values()) {
             Note note = l.getNote(tick);
             if (note == null) {
                 continue;
@@ -51,9 +51,11 @@ public class NoteBlockSongPlayer extends SongPlayer {
             ParticleEffect particleEffect = NoteBlockPlayerMain.plugin.game.getRegistry().createBuilder(NoteParticle.Builder.class).note(
                     NotePitch.getSpongeNotePitch(note.getKey() - 33)).type(ParticleTypes.NOTE).build();
             p.spawnParticles(particleEffect, noteBlockLocation.getPosition().add(random.nextFloat(), 1, random.nextFloat()));
-            p.playSound(Instrument.getInstrument(note.getInstrument()),
+            Instrument instrument = note.getInstrument();
+            float volume = l.getVolume() * this.volume * playerVolume / 1000000f;
+            p.playSound(instrument.getSound(),
                     noteBlockLocation.getPosition(),
-                    (l.getVolume() * (int) volume * (int) playerVolume) / 1000000f,
+                    volume,
                     NotePitch.getPitch(note.getKey() - 33));
         }
     }
