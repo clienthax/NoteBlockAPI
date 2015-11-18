@@ -7,7 +7,6 @@ import org.spongepowered.api.effect.particle.ParticleTypes;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
-import uk.co.haxyshideout.musicbox.MusicBox;
 
 /**
  * Created with IntelliJ IDEA.
@@ -62,7 +61,7 @@ public class NoteBlockSongPlayer extends SongPlayer {
 
     @Override
     public void playAreaTick(int tick) {
-        MusicBox.getInstance().game.getServer().getOnlinePlayers().stream()
+        NoteBlockPlayerMain.plugin.game.getServer().getOnlinePlayers().stream()
                 .filter(player -> player.getLocation().getExtent().equals(noteBlockLocation.getExtent()))
                 .filter(player -> player.getLocation().getPosition().distance(noteBlockLocation.getPosition()) < 16).forEach(player -> playTick
                 (player, tick));

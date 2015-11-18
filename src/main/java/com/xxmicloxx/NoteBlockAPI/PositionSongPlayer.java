@@ -3,7 +3,6 @@ package com.xxmicloxx.NoteBlockAPI;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
-import uk.co.haxyshideout.musicbox.MusicBox;
 
 public class PositionSongPlayer extends SongPlayer {
 
@@ -45,7 +44,7 @@ public class PositionSongPlayer extends SongPlayer {
 
     @Override
     public void playAreaTick(int tick) {
-        MusicBox.getInstance().game.getServer().getOnlinePlayers().stream()
+        NoteBlockPlayerMain.plugin.game.getServer().getOnlinePlayers().stream()
                 .filter(player -> player.getLocation().getExtent().equals(targetLocation.getExtent()))
                 .filter(player -> player.getLocation().getPosition().distance(targetLocation.getPosition()) < 16).forEach(player -> playTick(player,
                 tick));

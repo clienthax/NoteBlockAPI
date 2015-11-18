@@ -28,7 +28,6 @@ public class Song {
         this.path = other.getPath();
     }
 
-    @Deprecated
     public Song(float speed, Map<Integer, Layer> layerMap,
                 short songHeight, final short length, String title, String author,
                 String description, File path) {
