@@ -1,13 +1,13 @@
 package com.xxmicloxx.NoteBlockAPI;
 
 import com.google.inject.Inject;
+import com.xxmicloxx.NoteBlockAPI.players.SongPlayer;
 import org.spongepowered.api.Game;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.plugin.Plugin;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;

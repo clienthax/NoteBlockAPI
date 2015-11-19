@@ -1,7 +1,6 @@
 package com.xxmicloxx.NoteBlockAPI.events;
 
-import com.xxmicloxx.NoteBlockAPI.SongPlayer;
-import org.spongepowered.api.event.impl.AbstractEvent;
+import com.xxmicloxx.NoteBlockAPI.players.SongPlayer;
 
 public class SongEndEvent extends SongPlayerEvent {
 

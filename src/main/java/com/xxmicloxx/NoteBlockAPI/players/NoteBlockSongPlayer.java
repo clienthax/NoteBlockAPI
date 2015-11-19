@@ -1,5 +1,11 @@
-package com.xxmicloxx.NoteBlockAPI;
+package com.xxmicloxx.NoteBlockAPI.players;
 
+import com.xxmicloxx.NoteBlockAPI.NoteBlockPlayerMain;
+import com.xxmicloxx.NoteBlockAPI.decoders.nbs.Song;
+import com.xxmicloxx.NoteBlockAPI.decoders.nbs.Instrument;
+import com.xxmicloxx.NoteBlockAPI.decoders.nbs.Layer;
+import com.xxmicloxx.NoteBlockAPI.decoders.nbs.Note;
+import com.xxmicloxx.NoteBlockAPI.decoders.nbs.NotePitch;
 import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.effect.particle.NoteParticle;
 import org.spongepowered.api.effect.particle.ParticleEffect;

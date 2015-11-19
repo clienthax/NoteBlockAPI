@@ -1,4 +1,4 @@
-package com.xxmicloxx.NoteBlockAPI;
+package com.xxmicloxx.NoteBlockAPI.interfaces;
 
 public interface FadeType {
 

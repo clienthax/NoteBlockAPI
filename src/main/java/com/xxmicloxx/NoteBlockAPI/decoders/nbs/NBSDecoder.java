@@ -1,4 +1,4 @@
-package com.xxmicloxx.NoteBlockAPI;
+package com.xxmicloxx.NoteBlockAPI.decoders.nbs;
 
 import java.io.*;
 import java.util.HashMap;

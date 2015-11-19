@@ -1,4 +1,6 @@
-package com.xxmicloxx.NoteBlockAPI;
+package com.xxmicloxx.NoteBlockAPI.faders;
+
+import com.xxmicloxx.NoteBlockAPI.interfaces.FadeType;
 
 public class LinearFading implements FadeType {
 

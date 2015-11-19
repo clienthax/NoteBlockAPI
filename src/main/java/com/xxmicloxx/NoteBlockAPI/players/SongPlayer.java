@@ -1,8 +1,12 @@
-package com.xxmicloxx.NoteBlockAPI;
+package com.xxmicloxx.NoteBlockAPI.players;
 
+import com.xxmicloxx.NoteBlockAPI.NoteBlockPlayerMain;
+import com.xxmicloxx.NoteBlockAPI.decoders.nbs.Song;
 import com.xxmicloxx.NoteBlockAPI.events.SongDestroyingEvent;
 import com.xxmicloxx.NoteBlockAPI.events.SongEndEvent;
 import com.xxmicloxx.NoteBlockAPI.events.SongStoppedEvent;
+import com.xxmicloxx.NoteBlockAPI.faders.LinearFading;
+import com.xxmicloxx.NoteBlockAPI.interfaces.FadeType;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.service.scheduler.Task;
 
@@ -29,6 +33,7 @@ public abstract class SongPlayer {
     protected FadeType fadeType = new LinearFading();
     private Task timerTask;
     protected boolean areaMusic = false;
+    protected boolean looped = false;
     protected Random random = new Random();
 
     public SongPlayer(Song song) {
@@ -81,6 +86,14 @@ public abstract class SongPlayer {
 
     public boolean isAreaMusic() {
         return this.areaMusic;
+    }
+
+    public void setLooped(boolean looped) {
+        this.looped = looped;
+    }
+
+    public boolean isLooped() {
+        return this.looped;
     }
 
     protected void calculateFade() {
@@ -192,7 +205,9 @@ public abstract class SongPlayer {
             if(playing) {
                 tick++;
                 if(tick > song.getLength()) {
-                    playing = false;
+                    if(!isLooped()) {
+                        playing = false;
+                    }
                     tick = -1;
                     NoteBlockPlayerMain.plugin.game.getEventManager().post(new SongEndEvent(SongPlayer.this));
                     if(autoDestroy) {

@@ -1,4 +1,4 @@
-package com.xxmicloxx.NoteBlockAPI;
+package com.xxmicloxx.NoteBlockAPI.decoders.nbs;
 
 import org.spongepowered.api.data.type.NotePitches;
 
@@ -41,10 +41,16 @@ public enum NotePitch {
     }
 
     public static org.spongepowered.api.data.type.NotePitch getSpongeNotePitch(int note) {
-        return values()[note].spongeNotePitch;
+        if(note >= 0 && note < values().length) {
+            return values()[note].spongeNotePitch;
+        }
+        return NOTE_0.spongeNotePitch;
     }
 
     public static float getPitch(int note) {
-        return values()[note].pitch;
+        if(note >= 0 && note < values().length) {
+            return values()[note].pitch;
+        }
+        return 0.0f;
     }
 }
