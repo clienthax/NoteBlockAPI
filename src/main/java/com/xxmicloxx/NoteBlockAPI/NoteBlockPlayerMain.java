@@ -1,8 +1,8 @@
 package com.xxmicloxx.NoteBlockAPI;
 
-import com.google.inject.Inject;
 import com.xxmicloxx.NoteBlockAPI.players.SongPlayer;
 import org.spongepowered.api.Game;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
@@ -19,8 +19,9 @@ public class NoteBlockPlayerMain {
     public Map<Player, List<SongPlayer>> playingSongs = new WeakHashMap<>();
     public Map<Player, Byte> playerVolume = new WeakHashMap<>();
 
-    @Inject
-    public Game game;
+    public Game getGame() {
+        return Sponge.getGame();
+    }
 
     public static boolean isReceivingSong(Player p) {
         List<SongPlayer> songs = plugin.playingSongs.get(p);

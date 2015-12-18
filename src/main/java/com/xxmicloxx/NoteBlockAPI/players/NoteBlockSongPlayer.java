@@ -1,11 +1,11 @@
 package com.xxmicloxx.NoteBlockAPI.players;
 
 import com.xxmicloxx.NoteBlockAPI.NoteBlockPlayerMain;
-import com.xxmicloxx.NoteBlockAPI.decoders.nbs.Song;
 import com.xxmicloxx.NoteBlockAPI.decoders.nbs.Instrument;
 import com.xxmicloxx.NoteBlockAPI.decoders.nbs.Layer;
 import com.xxmicloxx.NoteBlockAPI.decoders.nbs.Note;
 import com.xxmicloxx.NoteBlockAPI.decoders.nbs.NotePitch;
+import com.xxmicloxx.NoteBlockAPI.decoders.nbs.Song;
 import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.effect.particle.NoteParticle;
 import org.spongepowered.api.effect.particle.ParticleEffect;
@@ -53,7 +53,8 @@ public class NoteBlockSongPlayer extends SongPlayer {
             if (note == null) {
                 continue;
             }
-            ParticleEffect particleEffect = NoteBlockPlayerMain.plugin.game.getRegistry().createBuilder(NoteParticle.Builder.class).note(
+
+            ParticleEffect particleEffect = NoteBlockPlayerMain.plugin.getGame().getRegistry().createBuilder(NoteParticle.Builder.class).note(
                     NotePitch.getSpongeNotePitch(note.getKey() - 33)).type(ParticleTypes.NOTE).build();
             p.spawnParticles(particleEffect, noteBlockLocation.getPosition().add(random.nextFloat(), 1, random.nextFloat()));
             Instrument instrument = note.getInstrument();
@@ -67,7 +68,7 @@ public class NoteBlockSongPlayer extends SongPlayer {
 
     @Override
     public void playAreaTick(int tick) {
-        NoteBlockPlayerMain.plugin.game.getServer().getOnlinePlayers().stream()
+        NoteBlockPlayerMain.plugin.getGame().getServer().getOnlinePlayers().stream()
                 .filter(player -> player.getLocation().getExtent().equals(noteBlockLocation.getExtent()))
                 .filter(player -> player.getLocation().getPosition().distance(noteBlockLocation.getPosition()) < 16).forEach(player -> playTick
                 (player, tick));

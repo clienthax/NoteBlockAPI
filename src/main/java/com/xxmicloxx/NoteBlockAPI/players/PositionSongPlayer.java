@@ -50,7 +50,7 @@ public class PositionSongPlayer extends SongPlayer {
 
     @Override
     public void playAreaTick(int tick) {
-        NoteBlockPlayerMain.plugin.game.getServer().getOnlinePlayers().stream()
+        NoteBlockPlayerMain.plugin.getGame().getServer().getOnlinePlayers().stream()
                 .filter(player -> player.getLocation().getExtent().equals(targetLocation.getExtent()))
                 .filter(player -> player.getLocation().getPosition().distance(targetLocation.getPosition()) < 16).forEach(player -> playTick(player,
                 tick));

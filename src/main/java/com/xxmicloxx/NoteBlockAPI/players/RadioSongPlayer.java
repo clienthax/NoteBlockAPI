@@ -34,7 +34,7 @@ public class RadioSongPlayer extends SongPlayer {
 
     @Override
     public void playAreaTick(int tick) {
-        NoteBlockPlayerMain.plugin.game.getServer().getOnlinePlayers().stream().forEach(player -> playTick(player, tick));
+        NoteBlockPlayerMain.plugin.getGame().getServer().getOnlinePlayers().stream().forEach(player -> playTick(player, tick));
     }
 
 }

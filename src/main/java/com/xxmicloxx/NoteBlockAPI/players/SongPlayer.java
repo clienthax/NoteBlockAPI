@@ -8,7 +8,7 @@ import com.xxmicloxx.NoteBlockAPI.events.SongStoppedEvent;
 import com.xxmicloxx.NoteBlockAPI.faders.LinearFading;
 import com.xxmicloxx.NoteBlockAPI.interfaces.FadeType;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.service.scheduler.Task;
+import org.spongepowered.api.scheduler.Task;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -134,7 +134,7 @@ public abstract class SongPlayer {
 
     public void destroy() {
         SongDestroyingEvent event = new SongDestroyingEvent(this);
-        NoteBlockPlayerMain.plugin.game.getEventManager().post(event);
+        NoteBlockPlayerMain.plugin.getGame().getEventManager().post(event);
         if(event.isCancelled()) {
             return;
         }
@@ -154,10 +154,10 @@ public abstract class SongPlayer {
         }
         this.playing = playing;
         if(playing) {
-            timerTask = NoteBlockPlayerMain.plugin.game.getScheduler().createTaskBuilder().intervalTicks(((Float)song.getDelay()).intValue())
+            timerTask = NoteBlockPlayerMain.plugin.getGame().getScheduler().createTaskBuilder().intervalTicks(((Float)song.getDelay()).intValue())
                     .execute(new Timer()).submit(NoteBlockPlayerMain.plugin);
         } else {
-            NoteBlockPlayerMain.plugin.game.getEventManager().post(new SongStoppedEvent(this));
+            NoteBlockPlayerMain.plugin.getGame().getEventManager().post(new SongStoppedEvent(this));
         }
     }
 
@@ -179,7 +179,7 @@ public abstract class SongPlayer {
             NoteBlockPlayerMain.plugin.playingSongs.remove(p);
         }
         if(players.isEmpty() && autoDestroy) {
-            NoteBlockPlayerMain.plugin.game.getEventManager().post(new SongEndEvent(this));
+            NoteBlockPlayerMain.plugin.getGame().getEventManager().post(new SongEndEvent(this));
             destroy();
         }
     }
@@ -209,7 +209,7 @@ public abstract class SongPlayer {
                         playing = false;
                     }
                     tick = -1;
-                    NoteBlockPlayerMain.plugin.game.getEventManager().post(new SongEndEvent(SongPlayer.this));
+                    NoteBlockPlayerMain.plugin.getGame().getEventManager().post(new SongEndEvent(SongPlayer.this));
                     if(autoDestroy) {
                         destroy();
                         return;
