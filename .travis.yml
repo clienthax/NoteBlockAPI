@@ -15,3 +15,4 @@ deploy:
   file: build/libs/*
   on:
     repo: clienthax/NoteBlockAPI
+    tags: true
