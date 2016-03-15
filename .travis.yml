@@ -25,7 +25,7 @@ deploy:
   provider: releases
   api_key:
     secure: EobolkGoCZa4FH0DWN8gNJ55/LFkISdf0aQmq0uHkosiwd9V30nH00DgQUqx3KPCeH4wnFk2QChDBdMo1SAnSm+BjBcY2te0yBeqTG/NhQitB0YDrD29wQPi6KF3tbumYPNWpB553EKjIr+X0OTKcfi5sorAJTLDGmxks2hx2rUVhAIJBqFhvJA7PXCL275szwFbQUM3wCTxqxrq+rwjO6O55Mhk049sgwD+W8k0Ze6uCZ4IjshO2ZI/4yuFd5OtrFOh1B0JUHZIHqncSCCjftZS4IDUK6QPTPvKHEoFiGPg93eL/EUwbFJC7s5UgDws1MSJh4PRO2jo6NNoGIplG7GX0zSLKLTIn1/TIaadVJakLJh27Hk+vG9Z0Hwdd003B7B8eUE17T6D3x1uTiKgcoesNqkjh/W/2Vhr6W608Zx2PFvLt88YEuqtq8EOE9kiYjiouBPFY699hv1NInW06w3wZnJhsbPFaF3c2LyPFUp17fxpQ680Dq2NCLbe71lT4sxvSAITDPpS69KZ+EyMsooAXQDpHXnBsfYMS4uMNtGSAi3+pLrFZmVEHm0BTfp0pCQVku7WwNS1evlfNLYBeZ/fOd6TmVa/uzjuUTB/8QENrPFtGC1LbNAPYsnK9xLmMR/qpLDTCOCYN9qL4llWl6+80G+Jd6n9eOCa24tYFsU=
-  file: build/libs/noteblockapi-2.0.jar
+  file: build/libs/noteblockapi-2.1.jar
   on:
     tags: false
     all_branchs: true
