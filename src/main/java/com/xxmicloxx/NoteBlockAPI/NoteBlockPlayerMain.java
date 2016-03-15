@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
 
-@Plugin(name = "NoteBlockAPI", id = "NoteBlockAPI", version = "2.0")
+@Plugin(name = "NoteBlockAPI", id = "com.xxmicloxx.noteblockapi", version = "2.1")
 public class NoteBlockPlayerMain {
 
     public static NoteBlockPlayerMain plugin;
