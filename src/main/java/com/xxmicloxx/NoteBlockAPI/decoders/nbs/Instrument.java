@@ -5,11 +5,12 @@ import org.spongepowered.api.effect.sound.SoundTypes;
 
 public enum  Instrument {
 
-    PIANO(SoundTypes.NOTE_PIANO),
-    BASS_GUITAR(SoundTypes.NOTE_BASS_GUITAR),
-    BASEE_DRUM(SoundTypes.NOTE_BASS_DRUM),
-    SNARE_DRUM(SoundTypes.NOTE_SNARE_DRUM),
-    STICKS(SoundTypes.NOTE_STICKS);
+    PIANO(SoundTypes.BLOCK_NOTE_HARP),
+    BASS_GUITAR(SoundTypes.BLOCK_NOTE_BASS),
+    BASEE_DRUM(SoundTypes.BLOCK_NOTE_BASEDRUM),
+    SNARE_DRUM(SoundTypes.BLOCK_NOTE_SNARE),
+    STICKS(SoundTypes.BLOCK_NOTE_HAT),
+    PLING(SoundTypes.BLOCK_NOTE_PLING);
 
     private final SoundType sound;
 
