@@ -1,10 +1,8 @@
 package com.xxmicloxx.NoteBlockAPI.players;
 
 import com.xxmicloxx.NoteBlockAPI.NoteBlockPlayerMain;
-import com.xxmicloxx.NoteBlockAPI.decoders.nbs.Instrument;
 import com.xxmicloxx.NoteBlockAPI.decoders.nbs.Layer;
 import com.xxmicloxx.NoteBlockAPI.decoders.nbs.Note;
-import com.xxmicloxx.NoteBlockAPI.decoders.nbs.NotePitch;
 import com.xxmicloxx.NoteBlockAPI.decoders.nbs.Song;
 import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.effect.particle.ParticleEffect;
@@ -54,17 +52,11 @@ public class NoteBlockSongPlayer extends SongPlayer {
                 continue;
             }
 
-            ParticleEffect particleEffect = ParticleEffect.builder().type(ParticleTypes.NOTE).option(ParticleOptions.NOTE, NotePitch.getSpongeNotePitch(note.getKey() - 33)).build();
-
-//            ParticleEffect particleEffect = NoteBlockPlayerMain.plugin.getGame().getRegistry().createBuilder(ParticleTypes.NOTE.class).note(
-//                    NotePitch.getSpongeNotePitch(note.getKey() - 33)).type(ParticleTypes.NOTE).build();
+            ParticleEffect particleEffect = ParticleEffect.builder().type(ParticleTypes.NOTE).option(ParticleOptions.NOTE, note.notePitch).build();
             p.spawnParticles(particleEffect, noteBlockLocation.getPosition().add(random.nextFloat(), 1, random.nextFloat()));
-            Instrument instrument = note.getInstrument();
+
             float volume = l.getVolume() * this.volume * playerVolume / 1000000f;
-            p.playSound(instrument.getSound(),
-                    noteBlockLocation.getPosition(),
-                    volume,
-                    NotePitch.getPitch(note.getKey() - 33));
+            p.playSound(note.instrument.getSound(), noteBlockLocation.getPosition(), volume, note.pitch);
         }
     }
 
